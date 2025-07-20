@@ -2,39 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Modern Techy Portfolio Design System - All colors in HSL */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dark theme colors */
+    --background: 220 13% 6%;
+    --foreground: 210 40% 98%;
+    
+    /* Tech accent colors */
+    --neon-blue: 200 100% 50%;
+    --neon-green: 120 100% 50%;
+    --cyber-purple: 270 100% 70%;
+    --electric-cyan: 180 100% 50%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Card and surface colors */
+    --card: 220 13% 8%;
+    --card-foreground: 210 40% 98%;
+    --card-border: 220 13% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 220 13% 8%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary accent - neon blue */
+    --primary: 200 100% 50%;
+    --primary-foreground: 220 13% 6%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary accent - dark surface */
+    --secondary: 220 13% 12%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted colors */
+    --muted: 220 13% 10%;
+    --muted-foreground: 210 20% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - cyber purple */
+    --accent: 270 100% 70%;
+    --accent-foreground: 220 13% 6%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Borders and inputs */
+    --border: 220 13% 15%;
+    --input: 220 13% 12%;
+    --ring: 200 100% 50%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--neon-blue)), hsl(var(--electric-cyan)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--cyber-purple)), hsl(var(--neon-blue)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--neon-green)), hsl(var(--electric-cyan)));
+    
+    /* Glows and shadows */
+    --glow-primary: 0 0 20px hsl(var(--neon-blue) / 0.5);
+    --glow-secondary: 0 0 20px hsl(var(--cyber-purple) / 0.5);
+    --glow-accent: 0 0 20px hsl(var(--neon-green) / 0.5);
 
     --radius: 0.5rem;
 
@@ -100,6 +122,49 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  /* Tech Card Component */
+  .tech-card {
+    @apply bg-card border border-card-border rounded-lg p-6 relative overflow-hidden;
+    @apply transition-all duration-300 hover:border-primary;
+    @apply hover:shadow-[var(--glow-primary)];
+  }
+  
+  /* Neon Button Variants */
+  .btn-neon {
+    @apply bg-transparent border-2 border-primary text-primary px-6 py-2 rounded-lg;
+    @apply transition-all duration-300 hover:bg-primary hover:text-primary-foreground;
+    @apply hover:shadow-[var(--glow-primary)] hover:scale-105;
+  }
+  
+  .btn-cyber {
+    @apply bg-transparent border-2 border-accent text-accent px-6 py-2 rounded-lg;
+    @apply transition-all duration-300 hover:bg-accent hover:text-accent-foreground;
+    @apply hover:shadow-[var(--glow-secondary)] hover:scale-105;
+  }
+  
+  /* Skill Tag */
+  .skill-tag {
+    @apply bg-muted text-foreground px-4 py-2 rounded-full text-sm;
+    @apply border border-border transition-all duration-300;
+    @apply hover:border-primary hover:text-primary hover:shadow-[var(--glow-primary)];
+  }
+  
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+  
+  /* Tech Pattern Background */
+  .tech-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--neon-blue) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--cyber-purple) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, hsl(var(--neon-green) / 0.05) 0%, transparent 50%);
   }
 }
