@@ -1,5 +1,4 @@
 import { ChevronDown } from 'lucide-react';
-import profilePhoto from '@/assets/profile-photo.jpg';
 
 const Hero = () => {
   const scrollToAbout = () => {
@@ -23,7 +22,7 @@ const Hero = () => {
           {/* Profile Photo */}
           <div className="mb-8">
             <img 
-              src={profilePhoto} 
+              src="https://i.postimg.cc/VNXVC7CV/1722781239616.jpg" 
               alt="Sivanesan R" 
               className="w-48 h-48 rounded-full mx-auto border-4 border-primary shadow-[var(--glow-primary)] hover:scale-105 transition-transform duration-300"
             />
