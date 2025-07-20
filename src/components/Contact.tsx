@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Mail, Phone, Linkedin, Github, Code, Send, MapPin } from 'lucide-react';
+import { Mail, Phone, Linkedin, Github, Code, Send, MapPin, Loader2 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import { toast } from '@/hooks/use-toast';
 
 const Contact = () => {
@@ -8,15 +9,54 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // EmailJS configuration
+  const EMAILJS_SERVICE_ID = 'service_8o0wean';
+  const EMAILJS_TEMPLATE_ID = 'template_xa9kxcv';
+  const EMAILJS_PUBLIC_KEY = '_mgA3eIJUqyyzd_HH';
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. I'll get back to you soon!",
-    });
-    setFormData({ name: '', email: '', message: '' });
+    setIsLoading(true);
+
+    try {
+      // Initialize EmailJS with your public key
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_email: 'rsivanesan285@gmail.com', // Your email
+        }
+      );
+
+      console.log('Email sent successfully:', result);
+      
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thank you for reaching out. I'll get back to you soon!",
+      });
+      
+      // Reset form
+      setFormData({ name: '', email: '', message: '' });
+      
+    } catch (error) {
+      console.error('Error sending email:', error);
+      
+      toast({
+        title: "Failed to Send Message",
+        description: "Something went wrong. Please try again or contact me directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -135,9 +175,22 @@ const Contact = () => {
                 />
               </div>
               
-              <button type="submit" className="btn-neon w-full flex items-center justify-center gap-2">
-                <Send className="w-4 h-4" />
-                Send Message
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className="btn-neon w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    Send Message
+                  </>
+                )}
               </button>
             </form>
           </div>
